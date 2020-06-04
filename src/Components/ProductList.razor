@@ -1,6 +1,7 @@
 @using ContosoCrafts.WebSite.Models
 @using ContosoCrafts.WebSite.Services
 @using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Components.Forms
 @inject JsonFileProductService ProductService
 
 <div class="card-columns">
@@ -16,10 +17,61 @@
             <small class="text-muted"><button @onclick="(e => SelectProduct(product.Id))" 
               data-toggle="modal" data-target="#productModal" class="btn btn-primary">More Info</button>
             </small>
+            <small class="text-muted"><button @onclick="(e => OpenShareDialog(product.Id))" 
+              data-toggle="modal" data-target="#shareModal" class="btn btn-primary">Share Product</button>
+            </small>
         </div>
     </div>
 }
 </div>
+
+@if (sharedProduct != null)
+{
+<div class="modal fade" id="shareModal" tabindex="-1" role="dialog" aria-label="share" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h5 class="modal-title" id="shareTitle">Share @sharedProduct.Title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="card">
+            <div class="card-img" style="background-image: url('@sharedProduct.Image');">
+            </div>
+              <EditForm Model="@model" OnSubmit="ShareProductDetails">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-3">
+                      <label for="to">To </label>
+                    </div>
+                    <div class="col">
+                      <InputText id="to" @bind-Value="model.To" aria-placeholder="+1xxxxxxxxxx"  placeholder="+1xxxxxxxxxx"/>
+                    </div>
+                  </div>
+                  <div class="row">
+                     <div class="col-3">
+                      <label for="body">Message </label>
+                    </div>
+                    <div class="col">
+                      <InputTextArea id="body" rows="5" cols="30" @bind-Value="model.Body" aria-placeholder="Enter your message text here"  placeholder="Enter your message text here" />
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary">Share</button>
+                  <button type="clear" class="btn btn-secondary" @onclick="ClearFields">Clear</button>
+                </div>
+              </EditForm>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+}
 
 @if(selectedProduct != null)
 {
@@ -72,41 +124,58 @@
 
 @code 
 {
-    Product selectedProduct;
-    string selectedProductId;
+  ShareProductModel model { get; set; } = new ShareProductModel();
+      Product selectedProduct, sharedProduct;
+      string selectedProductId;
 
-    void SelectProduct(string productId)
-    {
-      selectedProductId = productId;
-      selectedProduct = ProductService.GetProducts().First(x => x.Id == productId);
-      GetCurrentRating();
-    }
-
-    int currentRating = 0;
-    int voteCount = 0;
-    string voteLabel;
-
-    void GetCurrentRating()
-    {
-      if(selectedProduct.Ratings == null)
+      void SelectProduct(string productId)
       {
-        currentRating = 0;
-        voteCount = 0;
-      }
-      else
-      {
-        voteCount = selectedProduct.Ratings.Count();
-        voteLabel = voteCount > 1 ? "Votes" : "Vote";
-        currentRating = selectedProduct.Ratings.Sum() / voteCount;
+          selectedProductId = productId;
+          selectedProduct = ProductService.GetProducts().First(x => x.Id == productId);
+          GetCurrentRating();
       }
 
-      System.Console.WriteLine($"Current rating for {selectedProduct.Id}: {currentRating}");
-    }
+      void OpenShareDialog(string productId)
+      {
+          sharedProduct = ProductService.GetProducts().First(x => x.Id == productId);
+      }
 
-    void SubmitRating(int rating)
-    {
-      System.Console.WriteLine($"Rating received for {selectedProduct.Id}: {rating}");
-      ProductService.AddRating(selectedProductId, rating);
-      SelectProduct(selectedProductId);
-    }
+      async Task ShareProductDetails()
+      {
+          await Task.FromException(new NotImplementedException());
+      }
+
+      void ClearFields()
+      {
+          model.Body = String.Empty;
+          model.To = String.Empty;
+      }
+
+      int currentRating = 0;
+      int voteCount = 0;
+      string voteLabel;
+
+      void GetCurrentRating()
+      {
+          if (selectedProduct.Ratings == null)
+          {
+              currentRating = 0;
+              voteCount = 0;
+          }
+          else
+          {
+              voteCount = selectedProduct.Ratings.Count();
+              voteLabel = voteCount > 1 ? "Votes" : "Vote";
+              currentRating = selectedProduct.Ratings.Sum() / voteCount;
+          }
+
+          System.Console.WriteLine($"Current rating for {selectedProduct.Id}: {currentRating}");
+      }
+
+      void SubmitRating(int rating)
+      {
+          System.Console.WriteLine($"Rating received for {selectedProduct.Id}: {rating}");
+          ProductService.AddRating(selectedProductId, rating);
+          SelectProduct(selectedProductId);
+      }
 }
