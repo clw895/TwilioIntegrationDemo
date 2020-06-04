@@ -2,7 +2,12 @@
 @using ContosoCrafts.WebSite.Services
 @using Microsoft.AspNetCore.Components.Web
 @using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.Extensions.Configuration
+@using Twilio
+@using Twilio.Rest.Api.V2010.Account
+@using Twilio.Types
 @inject JsonFileProductService ProductService
+@inject IConfiguration Configuration
 
 <div class="card-columns">
 @foreach (var product in ProductService.GetProducts())
@@ -63,7 +68,6 @@
                 </div>
                 <div class="card-footer">
                   <button type="submit" class="btn btn-primary">Share</button>
-                  <button type="clear" class="btn btn-secondary" @onclick="ClearFields">Clear</button>
                 </div>
               </EditForm>
           </div>
@@ -142,13 +146,16 @@
 
       async Task ShareProductDetails()
       {
-          await Task.FromException(new NotImplementedException());
-      }
+          var accountSid = Configuration["Values:Twilio:AccountSid"];
+          var authToken = Configuration["Values:Twilio:AuthToken"];
+          var fromPhoneNumber = Configuration["Values:Twilio:PhoneNumber"];
 
-      void ClearFields()
-      {
-          model.Body = String.Empty;
-          model.To = String.Empty;
+          TwilioClient.Init(accountSid, authToken);
+          var response = await MessageResource.CreateAsync(
+            from:new PhoneNumber($"whatsapp:{fromPhoneNumber}"),
+            to:new PhoneNumber($"whatsapp:{model.To}"),
+            body: model.Body
+          );
       }
 
       int currentRating = 0;

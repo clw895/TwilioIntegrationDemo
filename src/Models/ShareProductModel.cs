@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace ContosoCrafts.WebSite.Models
 {
     public class ShareProductModel 

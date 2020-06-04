@@ -12,6 +12,7 @@ To run this application, you need to do the following:
 
 1. Install Visual Studio, Visual Studio Code or the .NET CLI. If using Visual Studio Code, install the C# extension. This repo was created with Visual Studio Code.
 2. Create a Twilio Account to replace your Account SID and Auth Token by visiting [this link](https://www.twilio.com/try-twilio)
+3. Activate the Twilio Whatsapp Sandbox by visiting [this link](https://www.twilio.com/console/sms/whatsapp/learn)
 
 ### Installing
 
