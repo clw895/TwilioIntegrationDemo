@@ -23,6 +23,7 @@ To run this application, do the following:
 ```
 dotnet user-secrets set "Values:Twilio:AccountSid" "<REPLACE_TWILIO_ACCOUNT_SID_HERE>"
 dotnet user-secrets set "Values:Twilio:AuthToken" "<REPLACE_TWILIO_AuthToken_HERE>"
+dotnet user-secrets set "Values:Twilio:PhoneNumber" "<REPLACE_TWILIO_PHONENUMBER_HERE>"
 ```
 3. Run the application by typing `dotnet run` in the terminal 
 
