@@ -147,10 +147,11 @@
       {
           var accountSid = Configuration["Values:Twilio:AccountSid"];
           var authToken = Configuration["Values:Twilio:AuthToken"];
+          var phoneNumber = Configuration["Values:Twilio:PhoneNumber"];
 
           var response = await MessageResource.CreateAsync(
             to: new PhoneNumber(model.To),
-            from: new PhoneNumber(""),
+            from: new PhoneNumber(phoneNumber),
             body: model.Body
           );
       }
