@@ -1,6 +1,10 @@
 # Project Title
 
-This project is an intro to Twilio project. It contains an ASP.NET Core Blazor and a Web API project 
+This project is a walkthrough of how to use Twilio with ASP.NET Core. It uses Twilio across 3 different branches
+
+- twilio - This code contains a ContosoCrafts project which uses Twilio SMS to share products
+- whatsapp - This code contains a ContosoCrafts project which uses Twilio & Whatsapp to share products
+- autopilot - This code contains a ContosoCrafts project and Twilio Autopilot schema file which allows uses to order products via Twilio Autopilot, SMS, Whatsapp and smart devices
 
 ## Getting Started
 
@@ -8,26 +12,11 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-To run this application, you need to do the following:
-
-1. Install Visual Studio, Visual Studio Code or the .NET CLI. If using Visual Studio Code, install the C# extension. This repo was created with Visual Studio Code.
-2. Create a Twilio Account to replace your Account SID and Auth Token by visiting [this link](https://www.twilio.com/try-twilio)
+To run this application, you need to switch to branch of your choice and follow the instructions in the README accordingly
 
 ### Installing
 
-To run this application, do the following:
-
-1. Clone the repo
-2. Update Twilio account settings in the user secrets by running the following commands:
-```
-dotnet user-secrets set "Values:Twilio:AccountSid" "<REPLACE_TWILIO_ACCOUNT_SID_HERE>"
-dotnet user-secrets set "Values:Twilio:AuthToken" "<REPLACE_TWILIO_AuthToken_HERE>"
-```
-3. Run the application by typing `dotnet run` in the terminal 
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
+To install this application, you need to switch to branch of your choice and follow the instructions in the README accordingly
 
 ## Built With
 
