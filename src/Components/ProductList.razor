@@ -5,6 +5,7 @@
 @using Microsoft.Extensions.Configuration
 @using Twilio.Rest.Api.V2010.Account
 @using Twilio.Types
+@using Twilio
 @inject JsonFileProductService ProductService
 @inject IConfiguration Configuration
 
@@ -67,6 +68,10 @@
                 </div>
                 <div class="card-footer">
                   <button type="submit" class="btn btn-primary">Share</button>
+                  @if (@MessageSent.HasValue && @MessageSent.Value == true)
+                  {
+                    <p>Message Sent Successfully</p>
+                  }
                 </div>
               </EditForm>
           </div>
@@ -127,7 +132,8 @@
 
 @code 
 {
-  ShareProductModel model { get; set; } = new ShareProductModel();
+      bool? MessageSent {get;set;} = null;
+      ShareProductModel model { get; set; } = new ShareProductModel();
       Product selectedProduct, sharedProduct;
       string selectedProductId;
 
@@ -149,11 +155,14 @@
           var authToken = Configuration["Values:Twilio:AuthToken"];
           var phoneNumber = Configuration["Values:Twilio:PhoneNumber"];
 
+          TwilioClient.Init(accountSid, authToken);
           var response = await MessageResource.CreateAsync(
             to: new PhoneNumber(model.To),
             from: new PhoneNumber(phoneNumber),
             body: model.Body
           );
+
+          MessageSent = true;
       }
 
       void ClearFields()

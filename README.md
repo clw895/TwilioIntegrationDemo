@@ -21,6 +21,7 @@ To run this application, do the following:
 1. Clone the repo
 2. Update Twilio account settings in the user secrets by running the following commands:
 ```
+dotnet user-secrets init
 dotnet user-secrets set "Values:Twilio:AccountSid" "<REPLACE_TWILIO_ACCOUNT_SID_HERE>"
 dotnet user-secrets set "Values:Twilio:AuthToken" "<REPLACE_TWILIO_AuthToken_HERE>"
 dotnet user-secrets set "Values:Twilio:PhoneNumber" "<REPLACE_TWILIO_PHONENUMBER_HERE>"
@@ -35,14 +36,6 @@ Add additional notes about how to deploy this on a live system
 
 * [ASP.NET Core Blazor](https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor) - The web framework used
 * [Twilio](https://www.twilio.com/) - Twilio
-
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
 
 ## Authors
 
